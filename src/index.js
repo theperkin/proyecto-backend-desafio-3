@@ -4,7 +4,7 @@ import ProductManager from './productManager.js'
 const dataPath = "./src/data.json"
 const manager = new ProductManager(dataPath);
 const app = express()
-const PORT = 4000
+const PORT = 8080
 
 app.use(express.urlencoded({ extended: true }));
 
