@@ -24,7 +24,7 @@ export class CartManager {
         this.checkFile();
         const carts = JSON.parse(await fs.readFile(this.path, 'utf-8'));
         const cart = carts.find(cart => cart.id === idCart);
-        return cart ? cart.products : `Error: Carrito ID: ${idCart} inexistente`;
+        return cart ? cart.products : `Carrito ID: ${idCart} inexistente`;
     }
 
     async addToCart(idCart, idProduct) {
@@ -33,14 +33,14 @@ export class CartManager {
         const cart = carts.find(cart => cart.id === idCart);
 
         if (!cart) {
-            return `Error: Carrito ID: ${idCart} inexistente`;
+            return `Carrito ID: ${idCart} inexistente`;
         }
 
         const products = JSON.parse(await fs.readFile("./src/models/products.json", 'utf-8'));
         const product = products.find(prod => prod.id === idProduct);
 
         if (!product) {
-            return `Error: El producto ID: ${idProduct} no existe`
+            return `El producto ID: ${idProduct} no existe`
         }
 
         const productInCart = cart.products.find(prod => prod.idProduct === idProduct);

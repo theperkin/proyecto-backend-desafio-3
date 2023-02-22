@@ -1,12 +1,11 @@
 import { Router } from "express";
 import { CartManager } from '../controllers/CartManager.js';
-const routerCarts = Router();
+export const routerCarts = Router();
 const cartManager = new CartManager("./src/models/carts.json");
 
 routerCarts.post('/', async (req, res) => {
     await cartManager.addCart();
     res.send({response: "Carrito creado"});
-
 });
 
 routerCarts.get('/:idCart', async (req, res) => {
@@ -30,5 +29,3 @@ routerCarts.post('/:idCart/product/:idProduct', async (req, res) => {
         res.send({response:"Error: El ID no es valido"});
     }
 });
-
-export default routerCarts;

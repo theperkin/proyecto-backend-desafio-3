@@ -1,6 +1,5 @@
 import { promises as fs, existsSync, writeFileSync } from 'fs'
 
-//Manager y producto
 export class ProductManager {
     constructor(path) {
         this.path = path
@@ -13,7 +12,7 @@ export class ProductManager {
     async addProduct(newProduct) {
 
         if (Object.values(newProduct).some(value => !value)) {
-            return "Error: El producto tiene campos incompletos";
+            return "Posee campos incompletos.";
         }
 
         this.checkFile();
@@ -21,13 +20,13 @@ export class ProductManager {
         const existingProduct = products.find(prod => prod.code === newProduct.code);
 
         if (existingProduct) {
-            return "Error: El producto ya existe";
+            return "El producto ya existe";
         }
 
         const newID = products.length ? products[products.length - 1].id + 1 : 1;
         products.push({ ...newProduct, id: newID });
         await fs.writeFile(this.path, JSON.stringify(products));
-        return "Success: El producto ha sido creado";
+        return "El producto ha sido creado";
     }
 
     async getProducts() {
@@ -36,17 +35,16 @@ export class ProductManager {
         return products;
     }
 
-
     async getProductByID(idProduct) {
         this.checkFile();
         const products = JSON.parse(await fs.readFile(this.path, 'utf-8'));
         const product = products.find(prod => prod.id === idProduct);
-        return product ? product : `Error: El Producto ID: ${idProduct} no existe`
+        return product ? product : `El Producto ID: ${idProduct} no existe`
     }
 
     async updateProduct(newProduct, idProduct) {
         if (Object.values(newProduct).some(value => !value)) {
-            return 'Error: El producto tiene campos incompletos';
+            return 'Posee campos incompletos.';
         }
 
         this.checkFile();
@@ -54,12 +52,12 @@ export class ProductManager {
         const productIndex = products.findIndex(prod => prod.id === idProduct);
 
         if (productIndex === -1) {
-            return `Error: El Producto ID: ${idProduct} no existe`;
+            return `El Producto ID: ${idProduct} no existe`;
         }
 
         products[productIndex] = { ...newProduct, id: idProduct };
         await fs.writeFile(this.path, JSON.stringify(products));
-        return `Success: El Producto ID: ${idProduct} ha sido actualizado`;
+        return `El Producto ID: ${idProduct} ha sido actualizado`;
     }
 
     async deleteProduct(idProduct) {
@@ -68,12 +66,12 @@ export class ProductManager {
         const productIndex = products.findIndex(prod => prod.id === idProduct);
 
         if (productIndex === -1) {
-            return `Error: El Producto ID: ${idProduct} no existe`
+            return `El Producto ID: ${idProduct} no existe`
         }
 
         products.splice(productIndex, 1);
         await fs.writeFile(this.path, JSON.stringify(products));
-        return `Success: El producto con ID ${idProduct} ha sido eliminado`;
+        return `El producto con ID ${idProduct} ha sido eliminado`;
     }
 
 }
